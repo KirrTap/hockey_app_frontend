@@ -7,6 +7,8 @@ function App() {
   // const [message, setMessage] = useState('');
 
   const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   try {
@@ -19,19 +21,21 @@ function App() {
   //   }
  
   // };
-  useEffect(() => {
-    // Načítanie dát pri načítaní komponentu
-    const fetchMatches = async () => {
-      try {
-        const response = await axios.get('https://hockey-app-backend.up.railway.app/api/kolo1'); // Zmena URL na backendový endpoint
-        setMatches(response.data);
-      } catch (error) {
-        console.error('Chyba pri načítaní dát', error);
-      }
-    };
 
-    fetchMatches();
-  }, []);
+
+  // useEffect(() => {
+  //   // Načítanie dát pri načítaní komponentu
+  //   const fetchMatches = async () => {
+  //     try {
+  //       const response = await axios.get('https://hockey-app-backend.up.railway.app/api/kolo1'); // Zmena URL na backendový endpoint
+  //       setMatches(response.data);
+  //     } catch (error) {
+  //       console.error('Chyba pri načítaní dát', error);
+  //     }
+  //   };
+
+  //   fetchMatches();
+  // }, []);
  
   // return (
   //   <div className="App">
@@ -49,20 +53,40 @@ function App() {
   //   </div>
   // );
 
+  useEffect(() => {
+    // Funkcia na načítanie zápasov z backendu
+    const fetchMatches = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/matches'); // API URL
+        setMatches(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Chyba pri načítaní zápasov:', err);
+        setError('Nepodarilo sa načítať zápasy');
+        setLoading(false);
+      }
+    };
+
+    fetchMatches(); // Zavolanie funkcie pri načítaní komponentu
+  }, []);
+
+  if (loading) return <div>Načítavam zápasy...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
-    <div>
-      <h1>Kolo 1: Zápasy</h1>
-      {matches.length === 0 ? (
-        <p>Načítavam zápasy...</p>
-      ) : (
-        <ul>
-          {matches.map((match, index) => (
-            <li key={index}>
-              {match.hometeam} vs {match.awayteam}
+    <div className="App">
+      <h1>Zápasy medzi dnešným dátumom a o 30 dní</h1>
+      <ul>
+        {matches.length > 0 ? (
+          matches.map((match) => (
+            <li key={match.id}>
+              {match.hometeam} vs {match.awayteam} – {new Date(match.match_date).toLocaleString()}
             </li>
-          ))}
-        </ul>
-      )}
+          ))
+        ) : (
+          <p>Žiadne zápasy v tomto období</p>
+        )}
+      </ul>
     </div>
   );
 }
