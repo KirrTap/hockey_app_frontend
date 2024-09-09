@@ -9,7 +9,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://hockey-app-backend.up.railway.app/api/text', { text });
+      const response = await axios.post('https://hockey-app-backend.up.railway.app/api/text', { text });
       setText('');
       setMessage(`Úspešne uložené: ${response.data.content}`);
     } catch (error) {
