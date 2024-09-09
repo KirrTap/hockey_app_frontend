@@ -11,8 +11,7 @@ function App() {
       const response = await axios.post('https://hockey-app.up.railway.app/api/text', { text });
       setText(response.data);
     } catch (error) {
-      console.error(error);
-      setMessage('Nastala chyba pri ukladaní.');
+      console.error('There was an error fetching matches!', error);
     }
   };
 
