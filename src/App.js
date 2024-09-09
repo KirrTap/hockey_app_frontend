@@ -80,12 +80,12 @@ function App() {
       <ul>
         {matches.length > 0 ? (
           matches.map((match) => (
-            <li key={match.id}>
+            <li key={match.id} className="list-item">
               <div>
                 {new Date(match.datum).toLocaleString()} -
-                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} width={25} />
+                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} className="logo" width={25} />
                 {match.hometeam} vs {match.awayteam}
-                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} width={25} />
+                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} className="logo" width={25} />
               </div>
             </li>
           ))
