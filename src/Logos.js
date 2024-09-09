@@ -1,6 +1,6 @@
 const logos = {
-    "Kosice": "./logos/Kosice.png",
-    "Trencin": "./logos/Trencin.png",
+    "Kosice": require("./logos/Kosice.png"),
+    "Trencin": require("./logos/Trencin.png",)
 }
 
 export default logos;
