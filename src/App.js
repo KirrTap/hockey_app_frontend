@@ -57,7 +57,7 @@ function App() {
     // Funkcia na načítanie zápasov z backendu
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/matches'); // API URL
+        const response = await axios.get('https://hockey-app-backend.up.railway.app/matches'); // API URL
         setMatches(response.data);
         setLoading(false);
       } catch (err) {
