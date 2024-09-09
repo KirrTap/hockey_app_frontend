@@ -21,8 +21,8 @@ function App() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={text}
           placeholder="Zadajte text"
+          value={text}
           onChange={(e) => setText(e.target.value)}      
         />
         <button type="submit">Odoslať</button>
