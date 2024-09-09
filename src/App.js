@@ -80,7 +80,7 @@ function App() {
         {matches.length > 0 ? (
           matches.map((match) => (
             <li key={match.id}>
-              {match.hometeam} vs {match.awayteam}
+              {match.datum} : {match.hometeam} vs {match.awayteam}
             </li>
           ))
         ) : (
