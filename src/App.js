@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Logos from './Logos';
 
 function App() {
   // const [text, setText] = useState('');
@@ -80,7 +81,12 @@ function App() {
         {matches.length > 0 ? (
           matches.map((match) => (
             <li key={match.id}>
-              {match.hometeam} vs {match.awayteam} – {new Date(match.datum).toLocaleString()}
+              <div>
+                {new Date(match.datum).toLocaleString()} -
+                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} width={50} />
+                {match.hometeam} vs {match.awayteam}
+                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} width={50} />
+              </div>
             </li>
           ))
         ) : (
