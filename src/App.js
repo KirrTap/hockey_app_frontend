@@ -4,17 +4,15 @@ import axios from 'axios';
 
 function App() {
   const [text, setText] = useState('');
-  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://hockey-app-backend.up.railway.app/api/text', { text });
+      console.log('Text added:', response.data);
       setText('');
-      setMessage(`Úspešne uložené: ${response.data.content}`);
     } catch (error) {
       console.error(error);
-      setMessage('Nastala chyba pri ukladaní.');
     }
   };
 
@@ -24,13 +22,12 @@ function App() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
           placeholder="Zadajte text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}   
         />
         <button type="submit">Odoslať</button>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }
