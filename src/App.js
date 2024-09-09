@@ -8,7 +8,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://hockey-app.up.railway.app/api/text', { text });
+      const response = await axios.post('https://hockey-app-backend.up.railway.app/api/text', { text });
       setText(response.data);
     } catch (error) {
       console.error('There was an error fetching matches!', error);
