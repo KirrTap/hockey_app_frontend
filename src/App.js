@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
@@ -32,21 +32,7 @@ function App() {
 
     fetchMatches();
   }, []);
-
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('https://hockey-app-backend.up.railway.app/api/text', { text });
-  //     setText('');
-  //     setMessage(`Úspešne uložené: ${response.data.content}`);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setMessage('Nastala chyba pri ukladaní.');
-  //   }
  
-  
-
   // return (
   //   <div className="App">
   //     <h1>Jednoduchý formulár</h1>
@@ -63,7 +49,7 @@ function App() {
   //   </div>
   // );
 
-  eturn (
+  return (
     <div>
       <h1>Kolo 1: Zápasy</h1>
       {matches.length === 0 ? (
