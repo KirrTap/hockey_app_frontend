@@ -9,8 +9,7 @@ function App() {
     e.preventDefault();
     try {
       const response = await axios.post('http://hockey-app-backend.up.railway.app/api/text', { text });
-      console.log('Text added:', response.data);
-      setText('');
+      setText(response.data);
     } catch (error) {
       console.error(error);
     }
