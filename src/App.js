@@ -80,7 +80,7 @@ function App() {
         {matches.length > 0 ? (
           matches.map((match) => (
             <li key={match.id}>
-              {match.datum} : {match.hometeam} vs {match.awayteam}
+              {match.hometeam} vs {match.awayteam} – {new Date(match.match_date).toLocaleString()}
             </li>
           ))
         ) : (
