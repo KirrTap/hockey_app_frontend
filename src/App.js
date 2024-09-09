@@ -22,8 +22,8 @@ function App() {
         <input
           type="text"
           value={text}
-          onChange={(e) => setText(e.target.value)}
           placeholder="Zadajte text"
+          onChange={(e) => setText(e.target.value)}      
         />
         <button type="submit">Odoslať</button>
       </form>
