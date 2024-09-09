@@ -1,5 +1,6 @@
-const Logos = {
-    "Kosice": "/logos/Kosice.png",
+const logos = {
+    "Kosice": "./logos/Kosice.png",
+    "Trencin": "./logos/Trencin.png",
 }
 
-export default Logos;
+export default logos;
