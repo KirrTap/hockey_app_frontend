@@ -11,7 +11,7 @@ function App() {
     try {
       const response = await axios.post('http://hockey-app-backend.up.railway.app/api/text', { text });
       setMessage(`Úspešne uložené: ${response.data.content}`);
-      setText('');
+      setText(response.data);
     } catch (error) {
       console.error(error);
       setMessage('Nastala chyba pri ukladaní.');
