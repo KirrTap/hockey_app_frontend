@@ -83,9 +83,9 @@ function App() {
             <li key={match.id}>
               <div>
                 {new Date(match.datum).toLocaleString()} -
-                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} width={50} />
+                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} width={25} />
                 {match.hometeam} vs {match.awayteam}
-                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} width={50} />
+                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} width={25} />
               </div>
             </li>
           ))
