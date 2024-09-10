@@ -80,14 +80,16 @@ function App() {
       <ul>
         {matches.length > 0 ? (
           matches.map((match) => (
-            <li key={match.id} className="list-item">
+            <div key={match.id} className="list-item">
               <div>
-                {new Date(match.datum).toLocaleString()} -
-                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} className="logo" width={25} />
-                {match.hometeam} vs {match.awayteam}
-                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} className="logo" width={25} />
+                <div>
+                  {new Date(match.datum).toLocaleString()} 
+                </div>
+                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} className="logo" />
+                <span className="team-name">{match.hometeam}</span> vs <span className="team-name">{match.awayteam}</span>
+                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} className="logo" />
               </div>
-            </li>
+            </div>
           ))
         ) : (
           <p>Žiadne zápasy v tomto období</p>
