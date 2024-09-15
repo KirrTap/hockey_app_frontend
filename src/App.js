@@ -4,59 +4,13 @@ import axios from 'axios';
 import Logos from './Logos';
 
 function App() {
-  // const [text, setText] = useState('');
-  // const [message, setMessage] = useState('');
-
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('https://hockey-app-backend.up.railway.app/api/text', { text });
-  //     setText('');
-  //     setMessage(`Úspešne uložené: ${response.data.content}`);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setMessage('Nastala chyba pri ukladaní.');
-  //   }
- 
-  // };
-
-
-  // useEffect(() => {
-  //   // Načítanie dát pri načítaní komponentu
-  //   const fetchMatches = async () => {
-  //     try {
-  //       const response = await axios.get('https://hockey-app-backend.up.railway.app/api/kolo1'); // Zmena URL na backendový endpoint
-  //       setMatches(response.data);
-  //     } catch (error) {
-  //       console.error('Chyba pri načítaní dát', error);
-  //     }
-  //   };
-
-  //   fetchMatches();
-  // }, []);
- 
-  // return (
-  //   <div className="App">
-  //     <h1>Jednoduchý formulár</h1>
-  //     <form onSubmit={handleSubmit}>
-  //       <input
-  //         type="text"
-  //         value={text}
-  //         onChange={(e) => setText(e.target.value)}
-  //         placeholder="Zadajte text"
-  //       />
-  //       <button type="submit">Odoslať</button>
-  //     </form>
-  //     {message && <p>{message}</p>}
-  //   </div>
-  // );
+  const [scores, setScores] = useState({});
 
   useEffect(() => {
-    // Funkcia na načítanie zápasov z backendu
-    const fetchMatches = async () => {
+    const loadMatches = async () => {
       try {
         const response = await axios.get('https://hockey-app-backend.up.railway.app/matches'); // API URL
         setMatches(response.data);
@@ -68,26 +22,98 @@ function App() {
       }
     };
 
-    fetchMatches(); // Zavolanie funkcie pri načítaní komponentu
+    loadMatches(); // Zavolanie funkcie pri načítaní komponentu
   }, []);
+
+  // Funkcia na aktualizáciu skóre pre daný zápas
+  const handleScoreChange = (matchId, team, value) => {
+    setScores((prevScores) => ({
+      ...prevScores,
+      [matchId]: {
+        ...prevScores[matchId],
+        [team]: value,
+      },
+    }));
+  };
+
+  // Funkcia na odoslanie výsledkov na server
+  const handleSubmit = async (matchId) => {
+    const matchScores = scores[matchId];
+    if (matchScores) {
+      try {
+        // Príklad POST požiadavky na odoslanie údajov
+        const response = await axios.post('https://hockey-app-backend.up.railway.app/save-match-result', {
+          matchId: matchId,
+          homeScore: matchScores.home || 0, // domáci tím skóre
+          awayScore: matchScores.away || 0, // hosťujúci tím skóre
+        });
+
+        if (response.status === 200) {
+          console.log('Výsledok bol úspešne uložený');
+        } else {
+          console.error('Chyba pri ukladaní výsledku');
+        }
+      } catch (error) {
+        console.error('Chyba pri komunikácii so serverom:', error);
+      }
+    }
+  };
 
   if (loading) return <div>Načítavam zápasy...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="App">
-      <h1>Zápasy medzi dnešným dátumom a o 30 dní</h1>
+    <div>
       <ul>
         {matches.length > 0 ? (
           matches.map((match) => (
-            <div key={match.id} className="list-item">
+            <div key={match.id} className="matchBox">
               <div>
-                <div>
-                  {new Date(match.datum).toLocaleString()} 
+                <div className="matchDate">
+                  {new Date(match.datum).toLocaleString('sk-SK', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
                 </div>
-                <img src={Logos[match.hometeam]} alt={`${match.hometeam} logo`} className="logo" />
-                <span className="team-name">{match.hometeam}</span> vs <span className="team-name">{match.awayteam}</span>
-                <img src={Logos[match.awayteam]} alt={`${match.awayteam} logo`} className="logo" />
+                <div>
+                  <img
+                    src={Logos[match.hometeam]}
+                    alt={`${match.hometeam} logo`}
+                    className="matchLogo"
+                  />
+                  <input
+                    type="text"
+                    className="scoreInput"
+                    value={scores[match.id]?.home || ''}
+                    onChange={(e) =>
+                      handleScoreChange(match.id, 'home', e.target.value)
+                    }
+                  />
+                  <span className="versus">:</span>
+                  <input
+                    type="text"
+                    className="scoreInput"
+                    value={scores[match.id]?.away || ''}
+                    onChange={(e) =>
+                      handleScoreChange(match.id, 'away', e.target.value)
+                    }
+                  />
+                  <img
+                    src={Logos[match.awayteam]}
+                    alt={`${match.awayteam} logo`}
+                    className="matchLogo"
+                  />
+                </div>
+                <button
+                  className="submitButton"
+                  onClick={() => handleSubmit(match.id)}
+                >
+                  Odoslať výsledok
+                </button>
               </div>
             </div>
           ))
